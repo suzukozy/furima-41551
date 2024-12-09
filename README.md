@@ -59,5 +59,6 @@
 | phone_number  | string     | null: false                    |
 | order         | references | null: false, foreign_key: true |
 
+
 ### Association
 - belongs_to :order
