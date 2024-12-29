@@ -26,7 +26,7 @@ class User < ApplicationRecord
   end
 
   validates :password, format: {
-    with: /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]{6,}\z/i
+    with: /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i
     # message: 'は半角英数字混合、６文字以上で入力してください'
   }
 end
