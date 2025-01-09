@@ -39,48 +39,19 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_133216) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "categories", charset: "utf8mb3", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "conditions", charset: "utf8mb3", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "items", charset: "utf8mb3", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "product"
     t.text "explain"
     t.integer "price"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.integer "category_id"
     t.integer "condition_id"
     t.integer "prefecture_id"
     t.integer "required_number_of_day_id"
     t.integer "shipping_fee_id"
-  end
-
-  create_table "prefectures", charset: "utf8mb3", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "required_number_of_days", charset: "utf8mb3", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "shipping_fees", charset: "utf8mb3", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_items_on_user_id"
   end
 
   create_table "users", charset: "utf8mb3", force: :cascade do |t|
@@ -103,4 +74,5 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_133216) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "items", "users"
 end

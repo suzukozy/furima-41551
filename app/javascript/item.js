@@ -7,7 +7,7 @@ function list() {
     const price = parseInt(itemPrice.value);
     const commission = Math.floor(price * 0.1);
     addTaxPrice.textContent = commission;
-    const salesProfit = price - commission;
+    const salesProfit = Math.floor(price - commission);
     profit.textContent = salesProfit;
   });
 }

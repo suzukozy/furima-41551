@@ -3,15 +3,10 @@ class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
 
   def index
-    @items = Item.includes(:order).order(created_at: :desc)
   end
 
   def new
-    if user_signed_in?
-      @item = Item.new
-    else
-      redirect_to new_user_session_path
-    end
+    @item = Item.new
   end
 
   def create
@@ -42,7 +37,4 @@ class ItemsController < ApplicationController
     ).merge(user_id: current_user.id)
   end
 
-  def set_item
-    @item = Item.includes(:order).find(params[:id])
-  end
 end
