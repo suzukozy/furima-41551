@@ -37,4 +37,8 @@ class ItemsController < ApplicationController
       :required_number_of_day_id
     ).merge(user_id: current_user.id)
   end
+
+  def set_item
+    @item = Item.includes(:order).find(params[:id])
+  end
 end
