@@ -3,6 +3,7 @@ class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
 
   def index
+    @items = Item.includes(:order).order(created_at: :desc)
   end
 
   def new
@@ -36,5 +37,4 @@ class ItemsController < ApplicationController
       :required_number_of_day_id
     ).merge(user_id: current_user.id)
   end
-
 end
