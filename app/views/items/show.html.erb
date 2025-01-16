@@ -13,7 +13,7 @@
       <div class="sold-out">
         <span>Sold Out!!</span>
       </div>
-      <%# end %>
+      <% end %>
 
       <%# //商品が売れている場合は、sold outを表示しましょう %>
     </div>
@@ -28,11 +28,11 @@
       <%# //サインインの分岐 %>
     <% if user_signed_in? %>
       <% if current_user.id == @item.user_id %>
-        <%# unless @item.order.present? %>
-          <%= link_to "商品の編集", edit_item_path(@item.id), method: :get, class: "item-red-btn" %>
+        <% unless @item.order.present? %>
+          <%= link_to "商品の編集", "#", method: :get, class: "item-red-btn" %>
           <p class="or-text">or</p>
           <%= link_to "削除",  "#", data: {turbo_method: :delete}, class:"item-destroy" %>
-        <%# end %>
+        <% end %>
       <%# elsif @item.order.present? == false %>
         <%= link_to "購入画面に進む",  "#", data: { turbo: false }, class:"item-red-btn"%>
       <% end %>
