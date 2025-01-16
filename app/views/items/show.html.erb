@@ -33,7 +33,7 @@
           <p class="or-text">or</p>
           <%= link_to "削除",  "#", data: {turbo_method: :delete}, class:"item-destroy" %>
         <% end %>
-      <% elsif @item.order.present? == false %>
+      <%# elsif @item.order.present? == false %>
         <%= link_to "購入画面に進む",  "#", data: { turbo: false }, class:"item-red-btn"%>
       <% end %>
     <% end %>
