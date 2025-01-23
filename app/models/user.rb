@@ -29,4 +29,7 @@ class User < ApplicationRecord
     with: /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i
     # message: 'は半角英数字混合、６文字以上で入力してください'
   }
+
+  has_many :items
+  has_many :orders
 end
