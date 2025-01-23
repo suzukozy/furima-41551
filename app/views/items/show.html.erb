@@ -15,26 +15,35 @@
       </div>
       <% end %>
 
-      <%# //商品が売れている場合は、sold outを表示しましょう %>
-    </div>
-     <div class="item-price-box">
-      <span class="item-price">
-        ¥ <%= @item.price %>
-      </span>
-      <span class="item-postage">
-        <%= @item.shipping_fee.name %>
-      </span>
-    </div>
-      <%# //サインインの分岐 %>
-    <% if user_signed_in? %>
-  <% if current_user.id == @item.user_id %>
-    <%# ログインユーザーが出品者の場合は編集と削除ボタンを表示 %>
-    <%= link_to "商品の編集", edit_item_path(@item.id), method: :get, class: "item-red-btn" %>
-    <p class="or-text">or</p>
-    <%= link_to "削除",  item_path, data: {turbo_method: :delete}, class: "item-destroy" %>
+     <%# 商品が売れている場合は、sold outを表示しましょう %>
+<% if @item.sold_out? %>
+  <p class="sold-out">SOLD OUT</p>
+<% end %>
+
+</div>
+<div class="item-price-box">
+  <span class="item-price">
+    ¥ <%= @item.price %>
+  </span>
+  <span class="item-postage">
+    <%= @item.shipping_fee.name %>
+  </span>
+</div>
+
+<%# サインインの分岐 %>
+<% if user_signed_in? %>
+  <% if @item.sold_out? %>
+    <%# 売却済み商品の場合、何も表示しない %>
   <% else %>
-    <%# ログインユーザーが出品者以外の場合は購入ボタンを表示 %>
-    <%= link_to "購入画面に進む", item_orders_path(@item.id), data: { turbo: false }, class: "item-red-btn" %>
+    <% if current_user.id == @item.user_id %>
+      <%# ログインユーザーが出品者の場合は編集と削除ボタンを表示 %>
+      <%= link_to "商品の編集", edit_item_path(@item.id), method: :get, class: "item-red-btn" %>
+      <p class="or-text">or</p>
+      <%= link_to "削除",  item_path(@item.id), data: { turbo_method: :delete }, class: "item-destroy" %>
+    <% else %>
+      <%# ログインユーザーが出品者以外の場合は購入ボタンを表示 %>
+      <%= link_to "購入画面に進む", item_orders_path(@item.id), data: { turbo: false }, class: "item-red-btn" %>
+    <% end %>
   <% end %>
 <% end %>
 

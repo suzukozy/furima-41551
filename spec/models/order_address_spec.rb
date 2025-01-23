@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe OrderAddress, type: :model do
   before do
-    user = FactoryBot.create(:user)
-    item = FactoryBot.create(:item)
+    user = FactoryBot.create(:user) # ユーザーを先に作成
+    item = FactoryBot.create(:item, user: user) # 作成したユーザーを関連付けて item を作成
     @order_address = FactoryBot.build(:order_address, user_id: user.id, item_id: item.id)
   end
 
@@ -31,23 +31,27 @@ RSpec.describe OrderAddress, type: :model do
       it '郵便番号に「-」が無ければ登録できない' do
         @order_address.post_code = '1234567'
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include('Post code is invalid')
+        expect(@order_address.errors.full_messages).to include('Post code is invalid. Include a hyphen (-)')
       end
+      
       it '郵便番号の「-」の前が３桁で無ければ登録できない' do
         @order_address.post_code = '12-4567'
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include('Post code is invalid')
+        expect(@order_address.errors.full_messages).to include('Post code is invalid. Include a hyphen (-)')
       end
+      
       it '郵便番号の「-」の後が４桁で無ければ登録できない' do
         @order_address.post_code = '123-456'
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include('Post code is invalid')
+        expect(@order_address.errors.full_messages).to include('Post code is invalid. Include a hyphen (-)')
       end
+      
       it '郵便番号が整数で無ければ登録できない' do
         @order_address.post_code = 'aaa-aaaa'
         @order_address.valid?
-        expect(@order_address.errors.full_messages).to include('Post code is invalid')
+        expect(@order_address.errors.full_messages).to include('Post code is invalid. Include a hyphen (-)')
       end
+      
       it '都道府県が選択されてなければ登録できない' do
         @order_address.prefecture_id = 1
         @order_address.valid?

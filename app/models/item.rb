@@ -7,6 +7,7 @@ class Item < ApplicationRecord
   belongs_to :prefecture
   belongs_to :required_number_of_day
   belongs_to :user
+  has_one    :order
 
   validates :category_id, :condition_id, :shipping_fee_id, :prefecture_id, :required_number_of_day_id,
             numericality: { other_than: 1, message: "can't be blank" }
@@ -27,4 +28,8 @@ class Item < ApplicationRecord
     validates :prefecture_id
     validates :required_number_of_day_id
   end
+  def sold_out?
+    order.present?
+  end
+  
 end

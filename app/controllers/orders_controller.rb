@@ -1,6 +1,8 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_order, only: [:index, :create]
+  before_action :redirect_if_not_allowed, only: [:index, :create]
+  before_action :redirect_if_sold_out, only: [:new, :create]
   def index
     gon.public_key = ENV['PAYJP_PUBLIC_KEY']
     @order_address = OrderAddress.new
@@ -53,5 +55,18 @@ class OrdersController < ApplicationController
 
   def set_order
     @item = Item.find(params[:item_id])
+  end
+
+  def redirect_if_not_allowed
+    return unless @item.user_id == current_user.id || @item.order.present?
+
+    redirect_to root_path
+  end
+
+  def redirect_if_sold_out
+    item = Item.find(params[:item_id])
+    return unless item.sold_out?
+
+    redirect_to root_path
   end
 end

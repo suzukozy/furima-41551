@@ -10,19 +10,12 @@ class OrderAddress
                 :item_id,
                 :token
 
-  # :price
-
   with_options presence: true do
-    # validates :price, numericality: {
-    #   greater_than_or_equal_to: 300,
-    #   less_than_or_equal_to: 9_999_999,
-    #   only_integer: true
-    # }
     validates :post_code, format: {
-      with: /\A[0-9]{3}-[0-9]{4}\z/
+      with: /\A[0-9]{3}-[0-9]{4}\z/, message: 'is invalid. Include a hyphen (-)'
     }
     validates :phone_number, format: {
-      with: /\A\d{10,11}$\z/
+      with: /\A\d{10,11}\z/, message: 'is invalid'
     }
     validates :prefecture_id, numericality: {
       other_than: 1, message: "can't be blank"
@@ -36,17 +29,16 @@ class OrderAddress
 
   def save
     order = Order.create(
-      # price:,
-      user_id:,
-      item_id:
+      user_id: user_id,
+      item_id: item_id
     )
     Address.create(
-      post_code:,
-      prefecture_id:,
-      municipality:,
-      house_number:,
-      building:,
-      phone_number:,
+      post_code: post_code,
+      prefecture_id: prefecture_id,
+      municipality: municipality,
+      house_number: house_number,
+      building: building,
+      phone_number: phone_number,
       order_id: order.id
     )
   end
