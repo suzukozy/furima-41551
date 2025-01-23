@@ -9,6 +9,11 @@ class CreateAddresses < ActiveRecord::Migration[7.0]
       t.string  :building
       t.string  :phone_number,      null: false
       t.timestamps
-    end
-  end
+ 
+      # 外部キーの定義
+  t.references :order,          null: false, foreign_key: true
+
+  t.timestamps
+end
+end
 end
