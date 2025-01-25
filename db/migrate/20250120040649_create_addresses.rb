@@ -12,8 +12,6 @@ class CreateAddresses < ActiveRecord::Migration[7.0]
  
       # 外部キーの定義
   t.references :order,          null: false, foreign_key: true
-
-  t.timestamps
-end
+ end
 end
 end
